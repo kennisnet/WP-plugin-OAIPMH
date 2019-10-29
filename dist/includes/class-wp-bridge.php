@@ -11,23 +11,62 @@
 
 class wpoaipmh_WP_bridge
 {
-	protected static $post_types = array('post' => 'publication');
-	protected static $dbtables = array(
+    // @see filter wpoaipmh/post_types
+    // @see filter wpoaipmh/oai_listsets
+    private static $post_types = [ 'post' => 'publication', 
+	];
+    
+	protected static $dbtables = [
 			'oai' 					=> 'oai',
 			'term_relationships'	=> 'oai_term_relationships',
 			'terms'					=> 'oai_terms',
 			'taxonomy'				=> 'oai_taxonomy',
-	);
-	protected static $core_taxonomies = array(
+	];
+	
+	// @see filter wpoaipmh/core_taxonomies
+	private static $core_taxonomies = [
+            'sector'                => 'sector',
 			'post_competence'		=> 'post_competence', // Bekwaamheidseisen
 			'post_tag'				=> 'post_tag', // Tags
-			);
+	];
+	
 	protected $taxonomy_ids = array();
 	
 	public function __construct() {
-		$this->taxonomy_ids['sector'] = self::get_taxonomy_id( 'sector' );
-		$this->taxonomy_ids['post_competence'] = self::get_taxonomy_id( 'post_competence' ); // FIXME: perhaps make a while loop based on self::$core_taxonomies ?
-		$this->taxonomy_ids['post_tag'] = self::get_taxonomy_id( 'post_tag' ); // FIXME: perhaps make a while loop based on self::$core_taxonomies ?
+	    
+	    foreach( self::get_core_taxonomies() as $tax_core => $tax_store ) {
+	        $this->taxonomy_ids[$tax_core] = self::get_taxonomy_id( $tax_core );
+	    }
+
+	}
+	
+	/**
+	 * @since      1.0.2
+	 * @return mixed
+	 */
+	public function get_core_taxonomies() {
+	    
+	    $core_tax_list = [];
+	    
+	    foreach( self::$core_taxonomies as $tax_core => $tax_store ) {
+	        $core_tax_list[$tax_core] = $tax_store;
+	    }
+	    
+	    return apply_filters( 'wpoaipmh/core_taxonomies', $core_tax_list );
+	}
+	
+	/**
+	 * @since      1.0.2 
+	 * @return mixed
+	 */
+	public function get_post_types() {
+	    $types_list = [];
+	    
+	    foreach( self::$post_types as $post_type_internal => $post_type_external ) {
+	        $types_list[$post_type_internal] = $post_type_external;
+	    }
+	    
+	    return apply_filters( 'wpoaipmh/post_types', $types_list );
 	}
 	
 	/**
@@ -36,7 +75,7 @@ class wpoaipmh_WP_bridge
 	 * @return string
 	 */
 	protected function post_type_convert_to_internal ( $type ) {
-		foreach(self::$post_types as $post_type_internal => $post_type_external ) {
+	    foreach( self::get_post_types() as $post_type_internal => $post_type_external ) {
 			if ( $post_type_external == $type ) {
 				return $post_type_internal;
 			}
@@ -49,7 +88,7 @@ class wpoaipmh_WP_bridge
 	 * @return string
 	 */
 	protected function post_type_convert_to_external ($type ) {
-		foreach(self::$post_types as $post_type_internal => $post_type_external ) {
+	    foreach(self::get_post_types() as $post_type_internal => $post_type_external ) {
 			if ( $post_type_internal == $type ) {
 				return $post_type_external;
 			}
@@ -100,7 +139,7 @@ class wpoaipmh_WP_bridge
 
 	/**
 	 * Helper for update_table_core_post, will fire upon AJAX request to catch inline edits
-	 * @param unknown $post_id
+	 * @param int $post_id
 	 */
 	protected static function helper_inline_save( $post_id ) {
 		self::update_table_plugin_acf( $post_id );
@@ -110,19 +149,20 @@ class wpoaipmh_WP_bridge
 	/**
 	 * Updates core taxonomies after post save
 	 * 
-	 * @param unknown $post_id
+	 * @param int $post_id
 	 */
 	public static function update_table_core_taxonomies( $post_id ) {
 		
-		foreach( self::$core_taxonomies as $core_taxonomy => $store_taxonomy ) {
-			$the_terms = wp_get_post_terms( $post_id, $core_taxonomy ); 
+		foreach( self::get_core_taxonomies() as $core_taxonomy => $store_taxonomy ) {
+			
+		    $the_terms = wp_get_post_terms( $post_id, $core_taxonomy );
 			$terms = array();
-			if(is_array($the_terms)) {
+			if( is_array( $the_terms ) ) {
 				foreach( $the_terms as $the_term ) {
 					$terms[] = $the_term->name;
 				}
 			}
-			self::link_all_taxonomy_terms_to_post($post_id, $store_taxonomy, $terms);
+			self::link_all_taxonomy_terms_to_post( $post_id, $store_taxonomy, $terms );
 		}
 		
 	}
@@ -134,28 +174,38 @@ class wpoaipmh_WP_bridge
 	 */
 	public static function update_table_plugin_acf( $post_id ) {
 		
-		$sectors = get_field('publication_sectors', $post_id);
-		$terms = array();
-		if( is_array($sectors) && count($sectors)) {
-			foreach( $sectors as $sector ) {
-				$terms[] = $sector['label'];
-			}
-		}
-		self::link_all_taxonomy_terms_to_post($post_id, 'sector', $terms);
+	    $do_sectors = apply_filters( 'wpoaipmh/acf_do_sectors', true );
+	    $do_publication_revision_date = apply_filters( 'wpoaipmh/acf_do_publication_revision_date', true );
+	    $do_publication_partner = apply_filters( 'wpoaipmh/acf_do_publication_partner', true );
+	    
+	    if( $do_sectors ) {
+    		$sectors = get_field('publication_sectors', $post_id);
+    		$terms = array();
+    		if( is_array($sectors) && count($sectors)) {
+    			foreach( $sectors as $sector ) {
+    				$terms[] = $sector['label'];
+    			}
+    		}
+    		self::link_all_taxonomy_terms_to_post($post_id, 'sector', $terms);
+	    }
 		
-		$tmp = get_field('publication_revision_date', $post_id);
-		$publication_revision_date = null;
-		if( $tmp ) {
-			$publication_revision_date = self::helper_convertdate( date("Y-m-d", strtotime( $tmp )), 'string' );
-		}
-		self::store_mixed_field( $post_id, $publication_revision_date, 'modified_date_entered' );
+	    if( $do_publication_revision_date ) {	        
+    		$tmp = get_field( 'publication_revision_date', $post_id);
+    		$publication_revision_date = null;
+    		if( $tmp ) {
+    			$publication_revision_date = self::helper_convertdate( date("Y-m-d", strtotime( $tmp )), 'string' );
+    		}
+    		self::store_mixed_field( $post_id, $publication_revision_date, 'modified_date_entered' );
+	    }
 		
-		$tmp = get_field( 'publication_partner', $post_id );
-		$publication_partner_name = null;
-		if( $tmp ) {
-			$publication_partner_name = get_the_title( $tmp );
-		}
-		self::store_mixed_field( $post_id, $publication_partner_name, 'partner_name' );
+	    if( $do_publication_partner ) {
+    		$tmp = get_field( 'publication_partner', $post_id );
+    		$publication_partner_name = null;
+    		if( $tmp ) {
+    			$publication_partner_name = get_the_title( $tmp );
+    		}
+    		self::store_mixed_field( $post_id, $publication_partner_name, 'partner_name' );	        
+	    }
 	}
 	
 	/**
@@ -210,7 +260,7 @@ class wpoaipmh_WP_bridge
 
 		$post_type = get_post_type( $post_id);
 		// Sanity check for post type
-		if ( !in_array($post_type, array_keys( self::$post_types ) ) ) {
+		if ( !in_array($post_type, array_keys( self::get_post_types() ) ) ) {
 			return;
 		}
 
@@ -349,7 +399,7 @@ class wpoaipmh_WP_bridge
 						$post_guid,
 						$post->post_modified,
 						$post_type,
-						$post->post_excerpt,
+				        apply_filters( 'wpoaipmh/post_excerpt', $post->post_excerpt, $post_id ),
 
 						$post_id ) );
 
@@ -419,6 +469,11 @@ class wpoaipmh_WP_bridge
 	protected static function get_linked_taxonomy_terms ( $post_id, $taxonomy_id ) {
 		global $wpdb;
 		
+		// If not present or suppressed
+		if( !$taxonomy_id ) {
+		    return false;
+		}
+		
 		$sql = 'SELECT * FROM '.self::get_table('terms') .
 		' WHERE term_id IN (
 					SELECT term_id FROM '.self::get_table('term_relationships') . ' WHERE oai_id = %d
@@ -446,7 +501,7 @@ class wpoaipmh_WP_bridge
 		// Convert based on vdex
 		if( $taxonomy == 'sector' ) {
 			foreach( $terms as $key => $term ) {
-				$terms[$key] = str_replace('MBO', 'BVE', $term);
+				$terms[$key] = str_replace( 'MBO', 'BVE', $term );
 			}
 		}
 		

@@ -1,28 +1,28 @@
 <?php
 /**
 
- * Plugin Name:		WP OAIPMH
- * Plugin URI:		https://www.kennisnet.nl
- * Description:		This plugin connects the WordPress content with OAIPMH
- * 
- * Version:         2.0.0
- *
- * @link       https://www.kennisnet.nl
- * @since      1.0.0
- * @package    wpoaipmh
- *
- * Author:            Kennisnet
- * Author URI:        https://www.kennisnet.nl
- * License:           GPL-3.0+
- * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
- * Text Domain:       wpoaipmh
- * Domain Path:       /languages
- */
+* Plugin Name:		WP OAIPMH
+* Plugin URI:		https://www.kennisnet.nl
+* Description:		This plugin connects the WordPress content with OAIPMH
+*
+* Version:         2.0.1
+*
+* @link       https://www.kennisnet.nl
+* @since      1.0.0
+* @package    wpoaipmh
+*
+* Author:            Kennisnet
+* Author URI:        https://www.kennisnet.nl
+* License:           GPL-3.0+
+* License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
+* Text Domain:       wpoaipmh
+* Domain Path:       /languages
+*/
 
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
-	die;
+    die;
 }
 
 // Make sure
@@ -34,8 +34,8 @@ if( !defined( 'WPOAIPMH_PLUGIN_LOADED') ) {
      * This action is documented in includes/class-activator.php
      */
     function activate_WPOAIPMH() {
-    	require_once plugin_dir_path( __FILE__ ) . 'includes/class-activator.php';
-    	wpoaipmh_Activator::activate();
+        require_once plugin_dir_path( __FILE__ ) . 'includes/class-activator.php';
+        wpoaipmh_Activator::activate();
     }
     
     /**
@@ -43,8 +43,8 @@ if( !defined( 'WPOAIPMH_PLUGIN_LOADED') ) {
      * This action is documented in includes/class-deactivator.php
      */
     function deactivate_WPOAIPMH() {
-    	require_once plugin_dir_path( __FILE__ ) . 'includes/class-deactivator.php';
-    	wpoaipmh_Deactivator::deactivate();
+        require_once plugin_dir_path( __FILE__ ) . 'includes/class-deactivator.php';
+        wpoaipmh_Deactivator::deactivate();
     }
     
     register_activation_hook( __FILE__, 'activate_WPOAIPMH' );
@@ -66,13 +66,13 @@ if( !defined( 'WPOAIPMH_PLUGIN_LOADED') ) {
     function run_wpoaipmh() {
         $plugin_core = new wpoaipmh_Core();
         $plugin_core->run();
-        	
+        
         if( is_admin() && $plugin_core->is_installed() ) {
             $plugin_bridge = new wpoaipmh_WP_bridge();
             $plugin_bridge->run();
-
-	    require plugin_dir_path( __FILE__ ) . 'admin/class-import-wp-bridge.php';
-	    add_action ('after_setup_theme', array( 'wpoaipmh_Import_bridge', 'import_action') );
+            
+            require plugin_dir_path( __FILE__ ) . 'admin/class-import-wp-bridge.php';
+            add_action ('after_setup_theme', array( 'wpoaipmh_Import_bridge', 'import_action') );
         }
     }
     

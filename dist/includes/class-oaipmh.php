@@ -33,7 +33,9 @@ use Picturae\OaiPmh\Implementation\Record as Record;
 
 class Repository implements InterfaceRepository {
 
-	protected $repositoryName = 'Leraar24 OAI';
+    // @see filter 'wpoaipmh/oai_repositoryName'
+    protected $repositoryName = 'Leraar24 OAI'; 
+    
 	protected $deletedRecord = ''; // @see http://www.openarchives.org/OAI/openarchivesprotocol.html#DeletedRecords
 	protected $adminEmails = array(); // TODO
 	protected $granularity = 'YYYY-MM-DDThh:mm:ssZ'; // FIXME? implement when reading records
@@ -65,7 +67,7 @@ class Repository implements InterfaceRepository {
      */
     public function identify() {
         return new ImplementationIdentity(
-        			$this->repositoryName,
+                    apply_filters( 'wpoaipmh/oai_repositoryName', $this->repositoryName ),
         			$this->getEarliestDateStamp(),
         			$this->deletedRecord,
         			$this->adminEmails,
@@ -79,7 +81,10 @@ class Repository implements InterfaceRepository {
      */
     public function listSets() {
         $items = [];
-        $items[] = new Set( 'publication', 'Publicatie' ); // Align with values of array in wpoaipmh_WP_bridge::$post_types
+        $items[] = new Set( 'publication', 'Publicatie' );
+        
+        $items = apply_filters( 'wpoaipmh/oai_listsets', $items ); // Align with values of array in wpoaipmh_WP_bridge::$post_types//get_post_types()
+        
         return new SetList( $items );
     }
 

@@ -14,6 +14,7 @@ Make sure the following packages are installed and activated before activating t
 ```
     "picturae/oai-pmh": "0.5.18",
     "zendframework/zend-diactoros": "*",
+    "zendframework/zend-httphandlerrunner": "*",
     "this-repo/wpoaipmh": "*",
 
 ```
@@ -139,6 +140,21 @@ Only included when is_admin() is true; Extends wpoaipmh_WP_bridge; Used to popul
 ### Taxonomy replacements
 
 Taxonomy `sector` term `MBO` will be replaced with vdex term `BVE`
+
+
+### WordPress filters
+
+* 'wpoaipmh/oai_record_do_tax/'.$tax
+* 'wpoaipmh/oai_record_meta'
+* 'wpoaipmh/oai_repositoryName'
+* 'wpoaipmh/oai_listsets'
+* 'wpoaipmh/core_taxonomies'
+* 'wpoaipmh/post_types'
+* 'wpoaipmh/acf_do_sectors'
+* 'wpoaipmh/acf_do_publication_revision_date'
+* 'wpoaipmh/acf_do_publication_partner'
+* 'wpoaipmh/post_excerpt'
+
 
 
 ### Pull requests

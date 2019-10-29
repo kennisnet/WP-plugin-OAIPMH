@@ -52,7 +52,7 @@ class wpoaipmh_Core {
 	public function __construct() {
 
 		$this->plugin_name = 'wpoaipmh';
-		$this->version = '2.0.0';
+		$this->version = '2.0.2';
 
 		$this->options = get_option( 'plugin_wpoaipmh' );
 
@@ -69,6 +69,7 @@ class wpoaipmh_Core {
 		if( $this->options && isset( $this->options['installed'] ) && $this->options['installed'] ) {
 			return true;
 		}
+		
 		return false;
 	}
 

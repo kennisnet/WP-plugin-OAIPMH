@@ -19,4 +19,4 @@ $response = $provider->getResponse();
 //var_dump((new Psr7)->modify_request($response, array('body' => time)));
 
 // Send PSR 7 Response
-(new Zend\Diactoros\Response\SapiEmitter())->emit($response);
+(new Zend\HttpHandlerRunner\Emitter\SapiEmitter)->emit($response);
