@@ -40,7 +40,7 @@ Then activate the plugin.
 ## Assumptions
 
 * Only lom format will be used
-* Only publications (CPT = post) will be present. However the code is ready to be extended. See chapter `General`, entry `Extending sets` of this document.
+* Only publications (CPT = post) will be present. However the code is ready to be extended and filtered. See chapter `General`, entry `Extending sets` and `WordPress filters` of this document.
 
 ## Technical architecture / How it works
 
