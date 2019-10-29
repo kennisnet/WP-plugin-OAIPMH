@@ -19,6 +19,8 @@ Make sure the following packages are installed and activated before activating t
 
 ```
 
+See public-display.php if your PHP version is not sufficient.
+
 ## Installation
 
 You must install this plugin via the command-line. Make sure you have a completed composer install and applied all requirements before activating this plugin.
