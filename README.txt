@@ -4,7 +4,7 @@ Donate link: https://www.kennisnet.nl/
 Tags: wp bridgd, oaipmh, oai, pmh
 Requires at least: 4.5
 Tested up to: 5.2.4
-Stable tag: 1.0.3
+Stable tag: 2.0.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
