@@ -22,29 +22,72 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         'BVE'	=> 'f3ac3fbb-5eae-49e0-8494-0a44855fff25',
     );
     
+    
     /**
-     * Queries DB for first published date
+     * 
+     * @param unknown $record
+     * 
+     * @since    2.0.7
+     * @return mixed
+     */
+    private function get_published_date_column_name( $record ) {
+        return apply_filters( 'wpoaipmh/published_date_column_name', 'published_date', $record );
+    }
+    
+    /**
+     *
+     * @param unknown $record
+     *
+     * @since    2.0.7
+     * @return mixed
+     */
+    private function get_modified_date_column_name( $record ) {
+        return apply_filters( 'wpoaipmh/modified_date_column_name', 'modified_date', $record );
+    }
+    
+    
+    /**
+     * Queries DB for first published date. Filterable
      *
      * @return DateTime
      */
     public function get_earliest_date( ) {
         global $wpdb;
-        $date = $wpdb->get_var ( 'SELECT MIN(modified_date) FROM '.self::get_table('oai') );
+        
+        $column = $this->get_published_date_column_name( null );
+        
+        $date = $wpdb->get_var ( 'SELECT MIN(`'.$column.'`) FROM '.self::get_table('oai') );
         return $this->helper_convertdate( $date );
     }
     
     /**
-     * Returns published date OR (if present) the entered modified date by author
+     * Returns modified date OR (if present) the entered modified date by author. Filterable
      *
      * @param unknown $record
      * @return unknown
      */
     protected function get_publisher_published_or_modified_date ( $record ) {
-        $published_date = $record->modified_date;
+        
+        $column = $this->get_modified_date_column_name( $record );
+        
+        $the_date = $record->{$column};
         if( $record->modified_date_entered ) {
-            $published_date = $record->modified_date_entered;
+            $the_date = $record->modified_date_entered;
         }
-        return $published_date;
+        return $the_date;
+    }
+    
+    /**
+     * Returns published date. Filterable
+     *
+     * @param unknown $record
+     * @return unknown
+     */
+    protected function get_publisher_published_date ( $record ) {
+        
+        $column = $this->get_published_date_column_name( $record );
+        
+        return $record->{$column};
     }
     
     /**
@@ -142,7 +185,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         
         // Taxonomy: Bekwaamheids
         // TODO: use filter 'wpoaipmh/oai_record_do_tax/'.$tax
-        if( is_array( $taxonomy['post_competence'] ) && count( $taxonomy['post_competence'] ) > 0) {
+        if( isset( $taxonomy['post_competence'] ) && is_array( $taxonomy['post_competence'] ) && count( $taxonomy['post_competence'] ) > 0) {
             foreach( $taxonomy['post_competence'] as $tax_item ) {
                 $keyword_sub = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_nl, $tax_item->term );
                 $general_subs[] = $this->helper_meta_create_structure( 'lom:keyword', array( $keyword_sub ) );
@@ -151,7 +194,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         
         // Taxonomy: Tags
         // TODO: use filter 'wpoaipmh/oai_record_do_tax/'.$tax
-        if( is_array( $taxonomy['post_tag'] ) && count( $taxonomy['post_tag'] ) > 0 ) {
+        if( isset( $taxonomy['post_tag'] ) && is_array( $taxonomy['post_tag'] ) && count( $taxonomy['post_tag'] ) > 0 ) {
             foreach( $taxonomy['post_tag'] as $tax_item ) {
                 $keyword_sub = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_nl, $tax_item->term );
                 $general_subs[] = $this->helper_meta_create_structure( 'lom:keyword', array( $keyword_sub ) );
@@ -190,7 +233,8 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         
         $contribute_centity_vcard = $this->helper_meta_create_structure( 'lom:vcard', array(), array(), $vcard_leraar24);
         $contribute_centity = $this->helper_meta_create_structure( 'lom:centity', array( $contribute_centity_vcard ));
-        $contribute_date_datetime = $this->helper_meta_create_structure( 'lom:datetime', array(), array(), substr( $this->get_publisher_published_or_modified_date( $record ), 0, 10) );
+        // Created date
+        $contribute_date_datetime = $this->helper_meta_create_structure( 'lom:datetime', array(), array(), substr( $this->get_publisher_published_date( $record ), 0, 10) );
         $contribute_date = $this->helper_meta_create_structure( 'lom:date', array( $contribute_date_datetime ));
         $lifecyle_contributes[] = $this->helper_meta_create_structure( 'lom:contribute', array( $contribute_role, $contribute_centity, $contribute_date ) );
         
@@ -281,7 +325,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         
         // context
         // Taxonomy: Sector
-        if( is_array( $taxonomy['post_sector'] ) && count( $taxonomy['post_sector'] ) > 0 ) {
+        if( isset( $taxonomy['post_sector'] ) && is_array( $taxonomy['post_sector'] ) && count( $taxonomy['post_sector'] ) > 0 ) {
             foreach( $taxonomy['post_sector'] as $tax_item ) {
                 //				$source_elem = $this->helper_meta_create_structure( 'lom:source', array(), array(), 'http://purl.edustandaard.nl/vdex_context_czp_20060628.xml');
                 $source_elem_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'http://purl.edustandaard.nl/vdex_context_czp_20060628.xml' );

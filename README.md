@@ -73,6 +73,7 @@ oai?verb=GetRecord&identifier=leraar24:publication:18&metadataPrefix=lom
 * The oai id in tables is the post ID that WordPress is using
 * On each update/save of a post the tables are (re-)populated for that specific post.
 * Only CPT that are/were ever publicly published are visible in the oai list. See chapter `Published / deleted in OAI` in this document.
+* Extending has been made possible using filters and PHP extends
 * Extending `sets` to more then just post CPT adjust Repository::listSets() and wpoaipmh_WP_bridge::$post_types
 * Extending `taxonomies` adjust wpoaipmh_WP_bridge::$core_taxonomies, wpoaipmh_WP_bridge::__construct() and the output function wpoaipmh_OAI_WP_bridge::get_meta() _plus_ make sure you insert a new taxonomy id in the `l24_oai_taxonomy` table
 * Extending `edustandaard sectorids` adjust wpoaipmh_OAI_WP_bridge::$edustandaard_sectorids
@@ -156,6 +157,8 @@ Taxonomy `sector` term `MBO` will be replaced with vdex term `BVE`
 * 'wpoaipmh/acf_do_publication_revision_date'
 * 'wpoaipmh/acf_do_publication_partner'
 * 'wpoaipmh/post_excerpt'
+* 'wpoaipmh/published_date_column_name'
+* 'wpoaipmh/modified_date_column_name'
 
 
 
