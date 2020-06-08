@@ -47,7 +47,8 @@ Then activate the plugin.
 ## Technical architecture / How it works
 
 ### Mass import existing items
-@see instructions on includes/class-wp-bridge.php
+@see instructions on admin/class-import-wp-bridge.php
+Take care that this is set to CPT=post, you may override this (see file)
 
 ### ListSets
 oai?verb=ListSets

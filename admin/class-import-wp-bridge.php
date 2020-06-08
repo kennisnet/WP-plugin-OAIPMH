@@ -37,7 +37,7 @@ class wpoaipmh_Import_bridge extends wpoaipmh_WP_bridge
 			update_option( 'kennisnet_wpoaipmh_stagger', intval($_GET['kennisnet_wpoaipmh_import_limit_install']), false );
 			wp_die( 'Installed, now run start GET' );
 		}
-		$this->post_type = 'post';
+		$this->post_type = ( isset( $_GET['kennisnet_wpoaipmh_import_cpt'] ) ) ? esc_attr( $_GET['kennisnet_wpoaipmh_import_cpt'] ) : 'post';
 		$this->import_limit = 50;
 
 		global $wpdb;
@@ -86,6 +86,7 @@ class wpoaipmh_Import_bridge extends wpoaipmh_WP_bridge
 	
 		update_option( 'kennisnet_wpoaipmh_stagger', ($start+$this->import_limit), false );
 		$new_url = admin_url( 'plugins.php?kennisnet_wpoaipmh_import_limit='.$this->import_limit.'&kennisnet_wpoaipmh_import_start='.($start+$this->import_limit) );
+		$new_url .= '&kennisnet_wpoaipmh_import_cpt='.$this->post_type;
 		echo '<meta http-equiv="refresh" content="5;url='.$new_url.'">';
 		die();
 	}
