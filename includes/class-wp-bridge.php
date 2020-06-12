@@ -152,19 +152,19 @@ class wpoaipmh_WP_bridge
 	 * @param int $post_id
 	 */
 	public static function update_table_core_taxonomies( $post_id ) {
-		
-		foreach( self::get_core_taxonomies() as $core_taxonomy => $store_taxonomy ) {
+
+	    foreach( self::get_core_taxonomies() as $core_taxonomy => $store_taxonomy ) {
 			
 		    $the_terms = wp_get_post_terms( $post_id, $core_taxonomy );
-			$terms = array();
+			$terms = [];
 			if( is_array( $the_terms ) ) {
 				foreach( $the_terms as $the_term ) {
 					$terms[] = $the_term->name;
 				}
 			}
+
 			self::link_all_taxonomy_terms_to_post( $post_id, $store_taxonomy, $terms );
 		}
-		
 	}
 	
 	/**
