@@ -421,11 +421,18 @@ class wpoaipmh_WP_bridge
 	 * @param unknown $taxonomy
 	 * @return unknown
 	 */
-	protected static function get_taxonomy_id( $taxonomy ) {
+	protected static function get_taxonomy_id( $taxonomy, $is_recursive = false ) {
 		global $wpdb;
 		
 		$sql = 'SELECT tax_id FROM '.self::get_table('taxonomy') . ' WHERE taxonomy = %s';
-		return $wpdb->get_var( $wpdb->prepare( $sql, $taxonomy ) );
+		$id = $wpdb->get_var( $wpdb->prepare( $sql, $taxonomy ) );
+		
+		if( $id ) { return $id; }
+		
+		// Create
+		$sql = $wpdb->prepare( 'INSERT INTO '.self::get_table('taxonomy') . ' ( `taxonomy`) VALUES ( %s )', $taxonomy );
+		$wpdb->query( $sql );
+		return $wpdb->insert_id;
 	}
 	
 	/**
