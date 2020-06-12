@@ -496,7 +496,7 @@ class wpoaipmh_WP_bridge
 	 * @param unknown $taxonomy
 	 * @param unknown $terms
 	 */
-	protected static function link_all_taxonomy_terms_to_post( $post_id, $taxonomy, $terms ) {
+	protected static function link_all_taxonomy_terms_to_post( $post_id, $taxonomy, $terms = [] ) {
 		global $wpdb;
 		
 		$taxonomy_id = self::get_taxonomy_id( $taxonomy );
