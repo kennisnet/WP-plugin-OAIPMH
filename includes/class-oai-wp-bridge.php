@@ -390,14 +390,30 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $classification_purpose_source = $this->helper_meta_create_structure( 'lom:source', array( $classification_purpose_source_langstring ));
         $classification_purpose_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'educational level' );
         $classification_purpose_value = $this->helper_meta_create_structure( 'lom:value', array( $classification_purpose_value_langstring ));
-        $classification_purpose = $this->helper_meta_create_structure( 'lom:purpose', array( $classification_purpose_source, $classification_purpose_value ) );
+        $classification_purpose_educational_level = $this->helper_meta_create_structure( 'lom:purpose', array( $classification_purpose_source, $classification_purpose_value ) );
         
+        $classification_purpose_source_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'http://purl.edustandaard.nl/classification_purpose_nllom_20180530' );
+        $classification_purpose_source = $this->helper_meta_create_structure( 'lom:source', array( $classification_purpose_source_langstring ));
+        $classification_purpose_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'access rights' );
+        $classification_purpose_value = $this->helper_meta_create_structure( 'lom:value', array( $classification_purpose_value_langstring ));
+        $classification_purpose_access_rights = $this->helper_meta_create_structure( 'lom:purpose', array( $classification_purpose_source, $classification_purpose_value ) );
+
+        $classification_access_rights_subs = [];
+        $taxon_entry_tag_elem = $this->helper_meta_create_structure( 'lom:langstring', array( ), $attribs_lang_nl, 'open toegang' );
+        $taxon_entry_tag = $this->helper_meta_create_structure( 'lom:entry', array( $taxon_entry_tag_elem ) );
+        $taxon_id_tag = $this->helper_meta_create_structure( 'lom:id', array(), array(), 'OpenAccess' );
+        $taxon_elem = $this->helper_meta_create_structure( 'lom:taxon', array( $taxon_id_tag, $taxon_entry_tag ));
+        $classification_access_rights_subs[] = $taxon_elem;
+        
+        $classification_taxonpath_langstring = $this->helper_meta_create_structure( 'lom:langstring', array( ), $attribs_lang_none, 'http://purl.edustandaard.nl/classification_accessrights_nllom_20180530' );
+        $classification_taxonpath_source = $this->helper_meta_create_structure( 'lom:source', array( $classification_taxonpath_langstring ) );
+        $classification_taxonpath_access_rights = $this->helper_meta_create_structure( 'lom:taxonpath', array_merge( array( $classification_taxonpath_source ), $classification_access_rights_subs ) );
         
         $classification_taxonpath_langstring = $this->helper_meta_create_structure( 'lom:langstring', array( ), $attribs_lang_none, 'http://purl.edustandaard.nl/begrippenkader' );
         $classification_taxonpath_source = $this->helper_meta_create_structure( 'lom:source', array( $classification_taxonpath_langstring ) );
         $classification_taxonpath = $this->helper_meta_create_structure( 'lom:taxonpath', array_merge( array( $classification_taxonpath_source ), $classification_subs ) );
         
-        $newelem_classification = $this->helper_meta_create_structure( 'lom:classification', array( $classification_purpose, $classification_taxonpath ) );
+        $newelem_classification = $this->helper_meta_create_structure( 'lom:classification', array( $classification_purpose_educational_level, $classification_purpose_access_rights, $classification_taxonpath, $classification_taxonpath_access_rights ) );
         $this->record_meta = $this->helper_meta_add_sub($this->record_meta, $newelem_classification);
         
         // Build metastring
