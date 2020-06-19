@@ -5,7 +5,7 @@
 * Plugin URI:		https://www.kennisnet.nl
 * Description:		This plugin connects the WordPress content with OAIPMH
 *
-* Version:         2.0.9
+* Version:         2.1.0
 *
 * @link       https://www.kennisnet.nl
 * @since      1.0.0
