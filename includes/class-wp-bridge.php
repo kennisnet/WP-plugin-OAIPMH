@@ -500,17 +500,20 @@ class wpoaipmh_WP_bridge
 		global $wpdb;
 		
 		$taxonomy_id = self::get_taxonomy_id( $taxonomy );
+		
 		if(!$taxonomy_id || intval($taxonomy_id) == 0 ) {
 			_doing_it_wrong( __FUNCTION__, __('No taxomony id found for '). $taxonomy );
 			return;
 		}
 		
 		// Convert based on vdex
-		if( $taxonomy == 'sector' ) {
+		if( $taxonomy == 'sector' || $taxonomy == 'post_sector' ) {
 			foreach( $terms as $key => $term ) {
 				$terms[$key] = str_replace( 'MBO', 'BVE', $term );
 			}
 		}
+		
+		$terms = apply_filters( 'wpoaipmh/tax_terms/'.$taxonomy, $terms, $post_id );
 		
 		// First, get all linked terms
 		$term_links_to_add = $terms;

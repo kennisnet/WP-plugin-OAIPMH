@@ -148,6 +148,7 @@ Taxonomy `sector` term `MBO` will be replaced with vdex term `BVE`
 
 ### WordPress filters
 
+* 'wpoaipmh/tax_terms/'.$tax
 * 'wpoaipmh/oai_record_do_tax/'.$tax
 * 'wpoaipmh/oai_record_meta'
 * 'wpoaipmh/oai_repositoryName'
