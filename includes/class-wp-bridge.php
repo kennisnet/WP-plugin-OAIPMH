@@ -152,19 +152,19 @@ class wpoaipmh_WP_bridge
 	 * @param int $post_id
 	 */
 	public static function update_table_core_taxonomies( $post_id ) {
-		
-		foreach( self::get_core_taxonomies() as $core_taxonomy => $store_taxonomy ) {
+
+	    foreach( self::get_core_taxonomies() as $core_taxonomy => $store_taxonomy ) {
 			
 		    $the_terms = wp_get_post_terms( $post_id, $core_taxonomy );
-			$terms = array();
+			$terms = [];
 			if( is_array( $the_terms ) ) {
 				foreach( $the_terms as $the_term ) {
 					$terms[] = $the_term->name;
 				}
 			}
+
 			self::link_all_taxonomy_terms_to_post( $post_id, $store_taxonomy, $terms );
 		}
-		
 	}
 	
 	/**
@@ -421,11 +421,18 @@ class wpoaipmh_WP_bridge
 	 * @param unknown $taxonomy
 	 * @return unknown
 	 */
-	protected static function get_taxonomy_id( $taxonomy ) {
+	protected static function get_taxonomy_id( $taxonomy, $is_recursive = false ) {
 		global $wpdb;
 		
 		$sql = 'SELECT tax_id FROM '.self::get_table('taxonomy') . ' WHERE taxonomy = %s';
-		return $wpdb->get_var( $wpdb->prepare( $sql, $taxonomy ) );
+		$id = $wpdb->get_var( $wpdb->prepare( $sql, $taxonomy ) );
+		
+		if( $id ) { return $id; }
+		
+		// Create
+		$sql = $wpdb->prepare( 'INSERT INTO '.self::get_table('taxonomy') . ' ( `taxonomy`) VALUES ( %s )', $taxonomy );
+		$wpdb->query( $sql );
+		return $wpdb->insert_id;
 	}
 	
 	/**
@@ -489,7 +496,7 @@ class wpoaipmh_WP_bridge
 	 * @param unknown $taxonomy
 	 * @param unknown $terms
 	 */
-	protected static function link_all_taxonomy_terms_to_post( $post_id, $taxonomy, $terms ) {
+	protected static function link_all_taxonomy_terms_to_post( $post_id, $taxonomy, $terms = [] ) {
 		global $wpdb;
 		
 		$taxonomy_id = self::get_taxonomy_id( $taxonomy );

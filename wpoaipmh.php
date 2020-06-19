@@ -5,7 +5,7 @@
 * Plugin URI:		https://www.kennisnet.nl
 * Description:		This plugin connects the WordPress content with OAIPMH
 *
-* Version:         2.0.7
+* Version:         2.0.8
 *
 * @link       https://www.kennisnet.nl
 * @since      1.0.0
@@ -72,7 +72,7 @@ if( !defined( 'WPOAIPMH_PLUGIN_LOADED') ) {
             $plugin_bridge->run();
             
             require plugin_dir_path( __FILE__ ) . 'admin/class-import-wp-bridge.php';
-            add_action ('after_setup_theme', array( 'wpoaipmh_Import_bridge', 'import_action') );
+            add_action ( 'init', [ 'wpoaipmh_Import_bridge', 'import_action' ], 999 ); // LATE ! You might miss taxonomies ..
         }
     }
     

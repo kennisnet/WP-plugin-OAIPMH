@@ -3,13 +3,16 @@ Contributors: ramonfincken
 Donate link: https://www.kennisnet.nl/
 Tags: wp bridgd, oaipmh, oai, pmh
 Requires at least: 4.5
-Tested up to: 5.4.1
+Tested up to: 5.4.2
 Stable tag: 2.0.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 
 = Changelog =
+2.0.8
+* Some bugfixes when using custom taxonomies
+
 2.0.7
 * More filters
 

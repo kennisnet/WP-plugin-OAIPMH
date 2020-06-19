@@ -204,7 +204,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         foreach( $taxonomy as $tax => $tax_items ) {        
             if( has_filter( 'wpoaipmh/oai_record_do_tax/'.$tax ) ) {
                 $output = apply_filters( 'wpoaipmh/oai_record_do_tax/'.$tax, $record->ID, $tax_items, $attribs_lang_nl );
-                if( $output ) {
+                if( $output && is_array( $output ) && count( $output ) ) {
                     $general_subs = array_merge( $general_subs, $output );
                 }
             }
