@@ -209,7 +209,6 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
                 }
             }
         }
-        
         $general_subs[] = $general_aggregationLevel;
         
         $newelem_general = $this->helper_meta_create_structure( 'lom:general', $general_subs );
@@ -305,7 +304,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $educational_learningResourceType_source = $this->helper_meta_create_structure( 'lom:source', array( $educational_learningResourceType_source_langstring ) );
         
         //		$educational_learningResourceType_value = $this->helper_meta_create_structure( 'lom:value', array(), array(), 'informatiebron' );
-        $educational_learningResourceType_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'informatiebron' );
+        $educational_learningResourceType_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'professionaliseringsmateriaal' );
         $educational_learningResourceType_value = $this->helper_meta_create_structure( 'lom:value', array( $educational_learningResourceType_value_langstring ) );
         
         $educational_learningResourceType = $this->helper_meta_create_structure( 'lom:learningresourcetype', array( $educational_learningResourceType_source, $educational_learningResourceType_value) );
