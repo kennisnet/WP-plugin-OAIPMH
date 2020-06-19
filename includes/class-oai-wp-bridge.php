@@ -300,7 +300,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         
         // learningResourceType
         //		$educational_learningResourceType_source = $this->helper_meta_create_structure( 'lom:source', array(), array(), 'http://purl.edustandaard.nl/vdex_classification_purpose_czp_20060628.xml' );
-        $educational_learningResourceType_source_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'http://purl.edustandaard.nl/vdex_classification_purpose_czp_20060628.xml' );
+        $educational_learningResourceType_source_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'https://purl.edustandaard.nl/vdex_learningresourcetype_czp_20060628.xml' );
         $educational_learningResourceType_source = $this->helper_meta_create_structure( 'lom:source', array( $educational_learningResourceType_source_langstring ) );
         
         //		$educational_learningResourceType_value = $this->helper_meta_create_structure( 'lom:value', array(), array(), 'informatiebron' );
