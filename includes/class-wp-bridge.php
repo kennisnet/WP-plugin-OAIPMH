@@ -513,6 +513,8 @@ class wpoaipmh_WP_bridge
 			}
 		}
 		
+		$terms = apply_filters( 'wpoaipmh/tax_terms/'.$taxonomy, $terms, $post_id );
+		
 		// First, get all linked terms
 		$term_links_to_add = $terms;
 		$term_links_to_delete_ids = array();
