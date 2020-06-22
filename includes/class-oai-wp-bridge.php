@@ -429,7 +429,10 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $classification_taxonpath_source = $this->helper_meta_create_structure( 'lom:source', array( $classification_taxonpath_langstring ) );
         $classification_taxonpath = $this->helper_meta_create_structure( 'lom:taxonpath', array_merge( array( $classification_taxonpath_source ), $classification_subs ) );
         
-        $newelem_classification = $this->helper_meta_create_structure( 'lom:classification', array( $classification_purpose_educational_level, $classification_purpose_access_rights, $classification_taxonpath, $classification_taxonpath_access_rights ) );
+        $newelem_classification = $this->helper_meta_create_structure( 'lom:classification', array( $classification_purpose_educational_level,  $classification_taxonpath) );
+        $this->record_meta = $this->helper_meta_add_sub($this->record_meta, $newelem_classification);
+        
+        $newelem_classification = $this->helper_meta_create_structure( 'lom:classification', array( $classification_purpose_access_rights, $classification_taxonpath_access_rights ) );
         $this->record_meta = $this->helper_meta_add_sub($this->record_meta, $newelem_classification);
         
         // Build metastring
