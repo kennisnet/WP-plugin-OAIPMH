@@ -186,15 +186,16 @@ class wpoaipmh_WP_bridge
     				$terms[] = $sector['label'];
     			}
     		}
-    		self::link_all_taxonomy_terms_to_post($post_id, 'sector', $terms);
+    		self::link_all_taxonomy_terms_to_post( $post_id, 'sector', $terms );
 	    }
 		
 	    if( $do_publication_revision_date ) {	        
-    		$tmp = get_field( 'publication_revision_date', $post_id);
+    		$tmp = get_field( 'publication_revision_date', $post_id );
     		$publication_revision_date = null;
     		if( $tmp ) {
-    			$publication_revision_date = self::helper_convertdate( date("Y-m-d", strtotime( $tmp )), 'string' );
+    			$publication_revision_date = date("Y-m-d", strtotime( $tmp ) );
     		}
+    		
     		self::store_mixed_field( $post_id, $publication_revision_date, 'modified_date_entered' );
 	    }
 		
