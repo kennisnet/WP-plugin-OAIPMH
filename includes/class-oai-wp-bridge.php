@@ -604,23 +604,24 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
             }
         }
         $results = $wpdb->get_results($sql);
+      
         
         // Immediately retrieve the total amount of rows
         $sql = 'SELECT FOUND_ROWS() AS ttl;';
         $found_rows_obj = $wpdb->get_results($sql);
         $total_rows = $found_rows_obj[0]->ttl;
         
-        $record_data = array();
-        $statement_result = array();
+        $statement_result = [];
         
-        if( isset( $id_set )) {
-            $set = $this->post_type_convert_to_external($id_set);
+        if( isset( $id_set ) ) {
+            $set = $this->post_type_convert_to_external( $id_set );
         }
         
         foreach( $results as $result ) {
             $statement_result[] = array(
+                'record'        => $result,
                 'record_id'		=> self::$set_prefix.':'.$set.':'.$result->ID,
-                'modified'		=> $this->helper_convertdate($result->modified_date),
+                'published_date'=> $this->helper_convertdate( self::get_publisher_published_date( $result ) ),
                 'repository_id'	=> $set,
                 'published'		=> $result->is_publicly_published,
                 'deleted'		=> $result->is_deleted,
@@ -628,8 +629,6 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
             );
         }
         
-        $record_data  = array('status' => 'success', 'total' => $total_rows, 'records' => $statement_result);
-        
-        return $record_data;
+        return [ 'status' => 'success', 'total' => $total_rows, 'records' => $statement_result ];
     }
 }

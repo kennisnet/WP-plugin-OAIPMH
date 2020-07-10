@@ -171,7 +171,7 @@ class Repository implements InterfaceRepository {
      * @param unknown $record
      * @return \Picturae\OaiPmh\Implementation\Record
      */
-    private function processRecord($record)
+    protected function processRecord($record)
     {
     	// error_log('record_id: '. $record['record_id']);
     
@@ -180,7 +180,7 @@ class Repository implements InterfaceRepository {
     
     	$record_header = new Header(
     			$record['record_id'],	//Record ID
-    			$record['modified'],	//Modified time
+    			$record['published_date'],	//Publish time
     			array($record['repository_id']),	//Set spec
     			($record['deleted'] == 1 || $record['published'] == 0 ? true : false)	//Deleted state
     			);
