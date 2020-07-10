@@ -90,6 +90,10 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $do_publication_revision_date = apply_filters( 'wpoaipmh/acf_do_publication_revision_date', true );
         if( $do_publication_revision_date ) {
             $column = 'modified_date_entered';
+            if( ! $record->{$column} ) {
+                // Fallback if no value present
+                $column = $this->get_published_date_column_name( $record );
+            }
         }
         
         return $record->{$column};
