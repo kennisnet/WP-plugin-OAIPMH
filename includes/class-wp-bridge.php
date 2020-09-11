@@ -351,19 +351,10 @@ class wpoaipmh_WP_bridge
 		if( $post->post_status == 'trash' ) {
 			$is_deleted = true;
 			if( $was_deleted == 0 ) {
-				$wpdb->query(
-						$wpdb->prepare(
-								'UPDATE '.self::get_table('oai') . ' SET
-
-					is_deleted = 1,
-					is_publicly_published = 0,
-					deleted_date = %s
-
-					WHERE ID = %d',
-
-								current_time( 'mysql' ),
-								$post_id ) );
+			    $this->update_table_core_post_set_deleted( $post_id );
 			}
+			// Unlink any taxonomy terms
+			self::remove_taxonomy_links_for_post( $post_id );
 		} else {
 			// Undelete if nessecary
 			if( $was_deleted ) {
@@ -404,16 +395,33 @@ class wpoaipmh_WP_bridge
 
 						$post_id ) );
 
-		if( $is_deleted ) {
-			// Unlink any taxonomy terms
-			self::remove_taxonomy_links_for_post( $post_id );
-		}
-
 		// Catch inline edits here
 		if( defined('DOING_AJAX') || defined('WP_OAIPMH_FORCE_INLINE_SAVE') ) {
 			self::helper_inline_save( $post_id );
 		}
 		
+	}
+	
+	/**
+	 * Sets is_deleted to 1, is_publicly_published to 0, 
+	 * @param int $post_id
+	 * @param string $current_time defaults to current_time( 'mysql' )
+	 */
+	protected function update_table_core_post_set_deleted( int $post_id, string $current_time = '' ) {
+	    global $wpdb;
+	    
+	    $wpdb->query(
+	        $wpdb->prepare(
+	            'UPDATE '.self::get_table('oai') . ' SET
+	            
+					is_deleted = 1,
+					is_publicly_published = 0,
+					deleted_date = %s
+	            
+					WHERE ID = %d',
+	            
+	            ( $current_time ) ? $current_time : current_time( 'mysql' ),
+	            $post_id ) );
 	}
 	
 	/**
@@ -570,9 +578,9 @@ class wpoaipmh_WP_bridge
 	/**
 	 * Deletes all term/post links for post
 	 * 
-	 * @param unknown $post_id
+	 * @param int $post_id
 	 */
-	private static function remove_taxonomy_links_for_post( $post_id ) {
+	protected static function remove_taxonomy_links_for_post( int $post_id ) {
 		global $wpdb;
 		
 		$wpdb->query(

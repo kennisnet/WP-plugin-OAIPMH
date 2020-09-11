@@ -3,13 +3,16 @@ Contributors: ramonfincken
 Donate link: https://www.kennisnet.nl/
 Tags: wp bridgd, oaipmh, oai, pmh
 Requires at least: 4.5
-Tested up to: 5.4.2
-Stable tag: 2.1.3
+Tested up to: 5.5.1
+Stable tag: 2.1.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 
 = Changelog =
+2.1.4
+* Find orphaned (deleted) records on import
+* More filters
 
 2.1.3
 * set record header date as first created (published) instead of modified, set processRecord to protected

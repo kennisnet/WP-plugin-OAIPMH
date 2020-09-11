@@ -161,6 +161,7 @@ Taxonomy `sector` term `MBO` will be replaced with vdex term `BVE`
 * 'wpoaipmh/post_excerpt'
 * 'wpoaipmh/published_date_column_name'
 * 'wpoaipmh/modified_date_column_name'
+* 'wpoaipmh/import_bridge_deleted_deleted_time'
 
 
 
