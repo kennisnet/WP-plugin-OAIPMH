@@ -107,6 +107,11 @@ class wpoaipmh_WP_bridge
 		// Normal edit screen
 		// Inline edit on list post (CPT) overview
 		add_action( 'save_post', array( $this, 'update_table_core_post' ) , 10 , 3 );
+		
+		// No need for untrash, is covered by save_post
+		add_action( 'wp_trash_post', [ $this, 'set_deleted' ], 10, 1 );
+		add_action( 'delete_post', [ $this, 'set_deleted' ], 10, 1 );
+		
 	}
 	
 	/**
@@ -242,6 +247,15 @@ class wpoaipmh_WP_bridge
 								
 							$post_id ) );
 		}
+	}
+	
+	/**
+	 * @since      2.1.5
+	 * @param int $post_id
+	 */
+	protected function set_deleted( int $post_id ) {
+	    $this->update_table_core_post_set_deleted( $post_id );
+	    self::remove_taxonomy_links_for_post( $post_id );
 	}
 	
 	/**
