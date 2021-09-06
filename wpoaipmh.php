@@ -5,7 +5,7 @@
 * Plugin URI:		https://www.kennisnet.nl
 * Description:		This plugin connects the WordPress content with OAIPMH
 *
-* Version:         2.1.5
+* Version:         2.2.0
 *
 * @link       https://www.kennisnet.nl
 * @since      1.0.0
@@ -26,8 +26,8 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Make sure
-if( !defined( 'WPOAIPMH_PLUGIN_LOADED') ) {
-    define( 'WPOAIPMH_PLUGIN_LOADED', true);
+if( !defined( 'WPOAIPMH_PLUGIN_LOADED' ) ) {
+    define( 'WPOAIPMH_PLUGIN_LOADED', true );
     
     /**
      * The code that runs during plugin activation.

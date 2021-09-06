@@ -1,15 +1,21 @@
 === WP OAIPMH ===
 Contributors: ramonfincken
 Donate link: https://www.kennisnet.nl/
-Tags: wp bridgd, oaipmh, oai, pmh
+Description: https://github.com/kennisnet/WP-plugin-OAIPMH
+Tags: wp bridge, oaipmh, oai, pmh
 Requires at least: 4.5
-Tested up to: 5.5.1
+Tested up to: 5.8
 Stable tag: 2.1.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Update URI: false
 
 
 = Changelog =
+2.2.0
+* Updated for zend => laminas
+* Bugfix until/from unset
+
 2.1.5
 * Hook into trash/deleted actions
 

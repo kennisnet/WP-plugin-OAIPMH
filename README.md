@@ -13,6 +13,16 @@ Make sure the following packages are installed and activated before activating t
 
 ```
     "picturae/oai-pmh": "0.5.18",
+    "laminas/laminas-diactoros": "*",
+    "laminas/laminas-httphandlerrunner": "*",
+    "this-repo/wpoaipmh": "*",	
+```
+
+Legacy zend (please upgrade to laminas):
+
+```
+
+    "picturae/oai-pmh": "0.5.18",
     "zendframework/zend-diactoros": "*",
     "zendframework/zend-httphandlerrunner": "*",
     "this-repo/wpoaipmh": "*",

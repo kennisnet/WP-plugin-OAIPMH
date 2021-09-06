@@ -583,10 +583,10 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
                 $sql_where[] = $wpdb->prepare(' post_type = %s', $this->post_type_convert_to_internal($set) );
             }
         }
-        if( get_class($from) == 'DateTime' ) {
+        if( $from && get_class($from) == 'DateTime' ) {
             $sql_where[] = $wpdb->prepare(' modified_date >= %s', $from->format('Y-m-d') );
         }
-        if( get_class($until) == 'DateTime' ) {
+        if( $until && get_class($until) == 'DateTime' ) {
             $sql_where[] = $wpdb->prepare(' modified_date < %s', $until->format('Y-m-d') );
         }
         
