@@ -12,7 +12,7 @@ Needs Advanced Custom Fields or Advanced Custom Fields Pro to be activated and h
 Make sure the following packages are installed and activated before activating this plugin.
 
 ```
-    "picturae/oai-pmh": "0.5.18",
+    "picturae/oai-pmh": "0.5.20",
     "laminas/laminas-diactoros": "*",
     "laminas/laminas-httphandlerrunner": "*",
     "this-repo/wpoaipmh": "*",	
