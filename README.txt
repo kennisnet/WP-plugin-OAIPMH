@@ -4,7 +4,7 @@ Donate link: https://www.kennisnet.nl/
 Description: https://github.com/kennisnet/WP-plugin-OAIPMH
 Tags: wp bridge, oaipmh, oai, pmh
 Requires at least: 4.5
-Tested up to: 5.8.1
+Tested up to: 6.3.2
 Stable tag: 2.1.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,6 +12,9 @@ Update URI: false
 
 
 = Changelog =
+2.2.2
+* Updated class from protected to public to ensure PHP 8 compatiblity
+
 2.2.1
 * Updated composer to "picturae/oai-pmh": "0.5.20" to ensure 200 vs 400 http code
 
