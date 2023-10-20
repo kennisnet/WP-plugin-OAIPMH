@@ -253,7 +253,7 @@ class wpoaipmh_WP_bridge
 	 * @since      2.1.5
 	 * @param int $post_id
 	 */
-	protected function set_deleted( int $post_id ) {
+	public function set_deleted( int $post_id ) {
 	    $this->update_table_core_post_set_deleted( $post_id );
 	    self::remove_taxonomy_links_for_post( $post_id );
 	}
