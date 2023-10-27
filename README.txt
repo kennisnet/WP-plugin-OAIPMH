@@ -12,6 +12,9 @@ Update URI: false
 
 
 = Changelog =
+2.2.3
+* Updated function to static to ensure PHP 8 compatiblity
+
 2.2.2
 * Updated class from protected to public to ensure PHP 8 compatiblity
 
