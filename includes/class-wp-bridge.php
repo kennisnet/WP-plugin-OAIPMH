@@ -44,7 +44,7 @@ class wpoaipmh_WP_bridge
 	 * @since      1.0.2
 	 * @return mixed
 	 */
-	public function get_core_taxonomies() {
+	public static function get_core_taxonomies() {
 	    
 	    $core_tax_list = [];
 	    
