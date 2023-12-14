@@ -12,7 +12,7 @@ Update URI: false
 
 
 = Changelog =
-2.2.3
+2.2.4
 * Better documentation how to set orphaned records to deleted state
 
 2.2.2
