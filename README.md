@@ -142,7 +142,7 @@ Extends wpoaipmh_WP_bridge; Used in class-oaipmh.php; Queries WordPress database
 
 #### admin/class-import-wp-bridge.php
 
-Only included when is_admin() is true; Extends wpoaipmh_WP_bridge; Used to populate the oai tables. @see function import_into_oai how to run
+Only included when is_admin() is true; Extends wpoaipmh_WP_bridge; Used to populate the oai tables and sets orphaned items to deleted. @see function import_into_oai how to run
 
 ### Published / deleted in OAI
 

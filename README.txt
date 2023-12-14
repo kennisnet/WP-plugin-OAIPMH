@@ -4,8 +4,8 @@ Donate link: https://www.kennisnet.nl/
 Description: https://github.com/kennisnet/WP-plugin-OAIPMH
 Tags: wp bridge, oaipmh, oai, pmh
 Requires at least: 4.5
-Tested up to: 6.3.2
-Stable tag: 2.1.5
+Tested up to: 6.4.2
+Stable tag: 2.2.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Update URI: false
@@ -13,7 +13,7 @@ Update URI: false
 
 = Changelog =
 2.2.3
-* Updated function to static to ensure PHP 8 compatiblity
+* Better documentation how to set orphaned records to deleted state
 
 2.2.2
 * Updated class from protected to public to ensure PHP 8 compatiblity

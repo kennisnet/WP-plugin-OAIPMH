@@ -18,7 +18,9 @@ class wpoaipmh_Import_bridge extends wpoaipmh_WP_bridge
 	}
 	
 	/**
-	 * Populate the oai tables
+	 * Populate the oai tables, and also check for orphaned records
+	 * First: Run GET kennisnet_wpoaipmh_import_limit_install in wp-admin,
+	 * then, run GET kennisnet_wpoaipmh_import_start
 	 *
 	 * @return void
 	 */

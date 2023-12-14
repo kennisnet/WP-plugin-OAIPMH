@@ -71,8 +71,11 @@ if( !defined( 'WPOAIPMH_PLUGIN_LOADED' ) ) {
             $plugin_bridge = new wpoaipmh_WP_bridge();
             $plugin_bridge->run();
             
-            require plugin_dir_path( __FILE__ ) . 'admin/class-import-wp-bridge.php';
-            add_action ( 'init', [ 'wpoaipmh_Import_bridge', 'import_action' ], 999 ); // LATE ! You might miss taxonomies ..
+            // Only load when needed
+            if( isset( $_GET['kennisnet_wpoaipmh_import_start'] ) || isset( $_GET['kennisnet_wpoaipmh_import_limit_install'] ) ) {
+                require plugin_dir_path( __FILE__ ) . 'admin/class-import-wp-bridge.php';
+                add_action ( 'init', [ 'wpoaipmh_Import_bridge', 'import_action' ], 999 ); // LATE ! You might miss taxonomies
+            }
         }
     }
     
