@@ -12,6 +12,9 @@ Update URI: false
 
 
 = Changelog =
+2.2.6
+* Prevent auto-drafts from entering the oai tables
+
 2.2.4
 * Better documentation how to set orphaned records to deleted state
 
