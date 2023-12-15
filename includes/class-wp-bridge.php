@@ -268,18 +268,23 @@ class wpoaipmh_WP_bridge
 	 */
 	public function update_table_core_post( $post_id, $post, $update ) {
 
-		// If this is just a revision, return
-		if ( wp_is_post_revision( $post_id ) ) {
-			return;
-		}
+	    // If this is just a revision, return
+	    if ( wp_is_post_revision( $post_id ) ) {
+	        return;
+	    }
+	    // Make sure
+	    $post_status = get_post_status( $post_id );
+	    if( in_array( $post_status, [ 'auto-draft', ] ) ) {
+	        return;
+	    }
 
-		$post_type = get_post_type( $post_id);
-		// Sanity check for post type
-		if ( !in_array($post_type, array_keys( self::get_post_types() ) ) ) {
-			return;
-		}
+	    $post_type = get_post_type( $post_id );
+	    // Sanity check for post type
+	    if ( !in_array( $post_type, array_keys( self::$post_types ) ) ) {
+	        return;
+	    }
 
-		global $wpdb;
+	    global $wpdb;
 
 		$should_create_record = false;
 		$is_deleted = false;

@@ -56,6 +56,7 @@ class wpoaipmh_Import_bridge extends wpoaipmh_WP_bridge
 	
 		$the_query = new WP_Query( $args );
 	
+        // This bit is run after all posts that are currently in the posts database are processed
 		if ( ! $the_query->have_posts() ) {
 		    echo "Starting to find orphaned deleted records. If this times out, you can safely reload this page.<br/>\n";
 		    
