@@ -4,14 +4,17 @@ Donate link: https://www.kennisnet.nl/
 Description: https://github.com/kennisnet/WP-plugin-OAIPMH
 Tags: wp bridge, oaipmh, oai, pmh
 Requires at least: 4.5
-Tested up to: 6.4.2
-Stable tag: 2.2.2
+Tested up to: 6.4.3
+Stable tag: 2.2.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Update URI: false
 
 
 = Changelog =
+2.2.7
+* [CLEANUP] we do not need public facing css and js files
+
 2.2.6
 * Prevent auto-drafts from entering the oai tables
 
