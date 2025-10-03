@@ -20,7 +20,7 @@ class wpoaipmh_Core {
 	 * @access   protected
 	 * @var      wpoaipmh_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
-	protected $loader;
+    protected wpoaipmh_Loader $loader;
 
 	/**
 	 * The unique identifier of this plugin.
@@ -29,7 +29,7 @@ class wpoaipmh_Core {
 	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
-	protected $plugin_name;
+	protected string $plugin_name;
 
 	/**
 	 * The current version of the plugin.
@@ -38,7 +38,15 @@ class wpoaipmh_Core {
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
-	protected $version;
+	protected string $version;
+	
+	/**
+	 * Table options storage
+	 * 
+	 * @since      2.2.8
+	 * @var        array
+	 */
+	protected array $options;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -52,7 +60,7 @@ class wpoaipmh_Core {
 	public function __construct() {
 
 		$this->plugin_name = 'wpoaipmh';
-		$this->version = '2.0.2';
+		$this->version = '2.2.8';
 
 		$this->options = get_option( 'plugin_wpoaipmh' );
 
@@ -131,7 +139,7 @@ class wpoaipmh_Core {
 	 */
 	private function set_locale() {
 
-	    	$plugin_i18n = new wpoaipmh_i18n();
+        $plugin_i18n = new wpoaipmh_i18n();
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
 	}
